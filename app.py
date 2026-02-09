@@ -1,3 +1,8 @@
+"""
+AI in Banking Application
+Created by Ammara Dawood
+"""
+
 from flask import Flask, render_template, request, jsonify
 import numpy as np
 import pandas as pd
