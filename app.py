@@ -72,7 +72,7 @@ def train_models():
     X_fraud = fraud_data.drop(['is_fraud'], axis=1)
     y_fraud = fraud_data['is_fraud']
     
-    fraud_model = RandomForestClassifier(n_estimators=100, random_state=42)
+    fraud_model = RandomForestClassifier(n_estimators=50, random_state=42, max_depth=10)
     fraud_model.fit(X_fraud, y_fraud)
     
     # Train loan approval model
@@ -80,7 +80,7 @@ def train_models():
     X_loan = loan_data.drop(['approved'], axis=1)
     y_loan = loan_data['approved']
     
-    loan_model = RandomForestClassifier(n_estimators=100, random_state=42)
+    loan_model = RandomForestClassifier(n_estimators=50, random_state=42, max_depth=10)
     loan_model.fit(X_loan, y_loan)
 
 @app.route('/')
@@ -189,4 +189,4 @@ if __name__ == '__main__':
     print("Training models...")
     train_models()
     print("Models trained successfully!")
-    app.run(debug=True, host='0.0.0.0', port=8080)
+    app.run(debug=True, host='0.0.0.0', port=int(os.environ.get('PORT', 8080)))
