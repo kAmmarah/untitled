@@ -1,9 +1,6 @@
 flask==2.3.3
-scikit-learn==1.4.0
-numpy==1.26.4
-pandas==2.2.2
-matplotlib==3.8.4
-seaborn==0.13.2
-nltk==3.8.1
+# Using lighter alternatives for deployment
+# scikit-learn and heavy ML libraries are too large for Vercel
+# Will implement simplified versions using basic Python
 requests>=2.31.0
 python-dotenv>=1.0.0
