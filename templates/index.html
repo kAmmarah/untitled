@@ -1,0 +1,379 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>AI in Banking - Demo Application</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 0;
+            background-color: #f4f4f4;
+        }
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 20px;
+        }
+        header {
+            background-color: #2c3e50;
+            color: white;
+            padding: 1rem;
+            text-align: center;
+        }
+        .dashboard {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 20px;
+            margin-top: 20px;
+        }
+        .card {
+            background: white;
+            border-radius: 8px;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+            padding: 20px;
+        }
+        h2 {
+            color: #2c3e50;
+            border-bottom: 2px solid #3498db;
+            padding-bottom: 10px;
+        }
+        .form-group {
+            margin-bottom: 15px;
+        }
+        label {
+            display: block;
+            margin-bottom: 5px;
+            font-weight: bold;
+        }
+        input, select {
+            width: 100%;
+            padding: 8px;
+            border: 1px solid #ddd;
+            border-radius: 4px;
+            box-sizing: border-box;
+        }
+        button {
+            background-color: #3498db;
+            color: white;
+            padding: 10px 15px;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+            width: 100%;
+        }
+        button:hover {
+            background-color: #2980b9;
+        }
+        .result {
+            margin-top: 15px;
+            padding: 10px;
+            border-radius: 4px;
+            display: none;
+        }
+        .success {
+            background-color: #d4edda;
+            border: 1px solid #c3e6cb;
+            color: #155724;
+        }
+        .danger {
+            background-color: #f8d7da;
+            border: 1px solid #f5c6cb;
+            color: #721c24;
+        }
+        .warning {
+            background-color: #fff3cd;
+            border: 1px solid #ffeaa7;
+            color: #856404;
+        }
+        .chat-container {
+            margin-top: 20px;
+        }
+        .chat-messages {
+            height: 200px;
+            overflow-y: scroll;
+            border: 1px solid #ddd;
+            padding: 10px;
+            margin-bottom: 10px;
+            background-color: #f9f9f9;
+        }
+        .chat-input {
+            display: flex;
+        }
+        .chat-input input {
+            flex: 1;
+            margin-right: 10px;
+        }
+        .chat-input button {
+            width: auto;
+        }
+        .info-box {
+            background-color: #e3f2fd;
+            border-left: 4px solid #2196f3;
+            padding: 10px;
+            margin: 15px 0;
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <h1>AI in Banking - Application Demo</h1>
+        <p>Exploring how artificial intelligence transforms banking operations</p>
+    </header>
+
+    <nav style="background-color: #34495e; padding: 10px; text-align: center;">
+        <a href="/" style="color: white; text-decoration: none; margin: 0 15px; padding: 8px 16px; border-radius: 4px;">Home</a>
+        <a href="/visualizations" style="color: white; text-decoration: none; margin: 0 15px; padding: 8px 16px; border-radius: 4px;">Visualizations</a>
+    </nav>
+
+    <div class="container">
+        <div class="info-box">
+            <h3>About AI in Banking</h3>
+            <p>Artificial Intelligence is revolutionizing the banking sector by enhancing security, improving customer experience, and optimizing operations. This demo showcases several key applications:</p>
+            <ul>
+                <li>Fraud Detection: Identifying suspicious transactions in real-time</li>
+                <li>Loan Approval: Automating credit decisions using machine learning</li>
+                <li>Customer Service: Providing instant support through AI chatbots</li>
+            </ul>
+        </div>
+
+        <div class="dashboard">
+            <!-- Fraud Detection Card -->
+            <div class="card">
+                <h2>Fraud Detection System</h2>
+                <div class="form-group">
+                    <label for="transactionAmount">Transaction Amount ($):</label>
+                    <input type="number" id="transactionAmount" value="500" min="0">
+                </div>
+                <div class="form-group">
+                    <label for="accountAge">Account Age (days):</label>
+                    <input type="number" id="accountAge" value="365" min="0">
+                </div>
+                <div class="form-group">
+                    <label for="numTransactionsToday">Transactions Today:</label>
+                    <input type="number" id="numTransactionsToday" value="3" min="0">
+                </div>
+                <div class="form-group">
+                    <label for="hourOfDay">Hour of Day:</label>
+                    <input type="number" id="hourOfDay" value="14" min="0" max="23">
+                </div>
+                <div class="form-group">
+                    <label for="merchantCategory">Merchant Category:</label>
+                    <select id="merchantCategory">
+                        <option value="0">Grocery</option>
+                        <option value="1">Gas Station</option>
+                        <option value="2">Restaurant</option>
+                        <option value="3">Online Retail</option>
+                        <option value="4">ATM Withdrawal</option>
+                    </select>
+                </div>
+                <div class="form-group">
+                    <label for="isWeekend">Is Weekend?</label>
+                    <select id="isWeekend">
+                        <option value="0">No</option>
+                        <option value="1">Yes</option>
+                    </select>
+                </div>
+                <div class="form-group">
+                    <label for="locationRisk">Location Risk Score (0-1):</label>
+                    <input type="number" id="locationRisk" value="0.2" min="0" max="1" step="0.1">
+                </div>
+                <button onclick="detectFraud()">Analyze Transaction</button>
+                <div id="fraudResult" class="result"></div>
+            </div>
+
+            <!-- Loan Approval Card -->
+            <div class="card">
+                <h2>Loan Approval System</h2>
+                <div class="form-group">
+                    <label for="creditScore">Credit Score:</label>
+                    <input type="number" id="creditScore" value="720" min="300" max="850">
+                </div>
+                <div class="form-group">
+                    <label for="annualIncome">Annual Income ($):</label>
+                    <input type="number" id="annualIncome" value="75000" min="0">
+                </div>
+                <div class="form-group">
+                    <label for="debtToIncome">Debt-to-Income Ratio:</label>
+                    <input type="number" id="debtToIncome" value="0.3" min="0" max="1" step="0.01">
+                </div>
+                <div class="form-group">
+                    <label for="employmentLength">Employment Length (years):</label>
+                    <input type="number" id="employmentLength" value="5" min="0">
+                </div>
+                <div class="form-group">
+                    <label for="loanAmount">Loan Amount ($):</label>
+                    <input type="number" id="loanAmount" value="25000" min="0">
+                </div>
+                <div class="form-group">
+                    <label for="loanTerm">Loan Term (months):</label>
+                    <select id="loanTerm">
+                        <option value="36">36 months</option>
+                        <option value="60">60 months</option>
+                    </select>
+                </div>
+                <div class="form-group">
+                    <label for="homeOwnership">Home Ownership Status:</label>
+                    <select id="homeOwnership">
+                        <option value="0">Rent</option>
+                        <option value="1">Own</option>
+                        <option value="2">Mortgage</option>
+                    </select>
+                </div>
+                <button onclick="approveLoan()">Check Loan Eligibility</button>
+                <div id="loanResult" class="result"></div>
+            </div>
+
+            <!-- Chatbot Card -->
+            <div class="card">
+                <h2>Banking Assistant (Chatbot)</h2>
+                <div class="chat-container">
+                    <div id="chatMessages" class="chat-messages">
+                        <div>Banking Assistant: Hello! How can I assist you today?</div>
+                    </div>
+                    <div class="chat-input">
+                        <input type="text" id="chatInput" placeholder="Ask about balance, transactions, hours, fees, etc." onkeypress="handleKeyPress(event)">
+                        <button onclick="sendChatMessage()">Send</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        async function detectFraud() {
+            const formData = {
+                transaction_amount: parseFloat(document.getElementById('transactionAmount').value),
+                account_age_days: parseInt(document.getElementById('accountAge').value),
+                num_transactions_today: parseInt(document.getElementById('numTransactionsToday').value),
+                hour_of_day: parseInt(document.getElementById('hourOfDay').value),
+                merchant_category: parseInt(document.getElementById('merchantCategory').value),
+                is_weekend: parseInt(document.getElementById('isWeekend').value),
+                location_risk_score: parseFloat(document.getElementById('locationRisk').value)
+            };
+
+            try {
+                const response = await fetch('/api/fraud_detection', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json',
+                    },
+                    body: JSON.stringify(formData)
+                });
+
+                const result = await response.json();
+                
+                const resultDiv = document.getElementById('fraudResult');
+                resultDiv.style.display = 'block';
+                
+                if (result.is_fraud) {
+                    resultDiv.className = 'result danger';
+                    resultDiv.innerHTML = `
+                        <strong>ALERT: Potential Fraud Detected!</strong><br>
+                        Risk Level: ${result.risk_level}<br>
+                        Probability: ${(result.fraud_probability * 100).toFixed(2)}%
+                    `;
+                } else {
+                    resultDiv.className = 'result success';
+                    resultDiv.innerHTML = `
+                        <strong>Transaction Approved</strong><br>
+                        Risk Level: ${result.risk_level}<br>
+                        Probability: ${(result.fraud_probability * 100).toFixed(2)}%
+                    `;
+                }
+            } catch (error) {
+                console.error('Error:', error);
+                alert('Error occurred while checking for fraud');
+            }
+        }
+
+        async function approveLoan() {
+            const formData = {
+                credit_score: parseInt(document.getElementById('creditScore').value),
+                annual_income: parseFloat(document.getElementById('annualIncome').value),
+                debt_to_income: parseFloat(document.getElementById('debtToIncome').value),
+                employment_length_years: parseFloat(document.getElementById('employmentLength').value),
+                loan_amount: parseFloat(document.getElementById('loanAmount').value),
+                loan_term_months: parseInt(document.getElementById('loanTerm').value),
+                home_ownership: parseInt(document.getElementById('homeOwnership').value)
+            };
+
+            try {
+                const response = await fetch('/api/loan_approval', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json',
+                    },
+                    body: JSON.stringify(formData)
+                });
+
+                const result = await response.json();
+                
+                const resultDiv = document.getElementById('loanResult');
+                resultDiv.style.display = 'block';
+                
+                if (result.approved) {
+                    resultDiv.className = 'result success';
+                    resultDiv.innerHTML = `
+                        <strong>Loan Approved!</strong><br>
+                        Approval Probability: ${(result.approval_probability * 100).toFixed(2)}%<br>
+                        <small>Reasons: ${result.decision_reasons.join(', ')}</small>
+                    `;
+                } else {
+                    resultDiv.className = 'result danger';
+                    resultDiv.innerHTML = `
+                        <strong>Loan Not Approved</strong><br>
+                        Approval Probability: ${(result.approval_probability * 100).toFixed(2)}%<br>
+                        <small>Reasons: ${result.decision_reasons.join(', ')}</small>
+                    `;
+                }
+            } catch (error) {
+                console.error('Error:', error);
+                alert('Error occurred while checking loan eligibility');
+            }
+        }
+
+        async function sendChatMessage() {
+            const inputElement = document.getElementById('chatInput');
+            const message = inputElement.value.trim();
+            
+            if (!message) return;
+
+            // Add user message to chat
+            const chatMessages = document.getElementById('chatMessages');
+            chatMessages.innerHTML += `<div>You: ${message}</div>`;
+            
+            try {
+                const response = await fetch('/api/chatbot', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json',
+                    },
+                    body: JSON.stringify({ message: message })
+                });
+
+                const result = await response.json();
+                
+                // Add bot response to chat
+                chatMessages.innerHTML += `<div>Banking Assistant: ${result.response}</div>`;
+                
+                // Scroll to bottom
+                chatMessages.scrollTop = chatMessages.scrollHeight;
+                
+                // Clear input
+                inputElement.value = '';
+            } catch (error) {
+                console.error('Error:', error);
+                chatMessages.innerHTML += `<div>Banking Assistant: Sorry, I'm having trouble connecting right now.</div>`;
+            }
+        }
+
+        function handleKeyPress(event) {
+            if (event.key === 'Enter') {
+                sendChatMessage();
+            }
+        }
+    </script>
+</body>
+</html>
