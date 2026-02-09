@@ -1,5 +1,7 @@
 # AI in Banking - Complete Application Summary
 
+Created by Ammara Dawood
+
 ## Project Overview
 This comprehensive application demonstrates the implementation of Artificial Intelligence in banking operations. The project showcases three primary AI applications: fraud detection, loan approval automation, and customer service chatbots.
 

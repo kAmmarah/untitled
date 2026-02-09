@@ -1,5 +1,7 @@
 # AI in Banking Application
 
+Created by Ammara Dawood
+
 This project demonstrates various applications of Artificial Intelligence in the banking sector. The application showcases how AI technologies are revolutionizing traditional banking operations.
 
 ## Overview
